@@ -1,6 +1,6 @@
 # 用 Three.js 來當個創世神 (02)：Three.js 基本元素簡介
 
-> 在開始動手寫 Three.js 之前，先來簡單了解一些 Three.js 中的基本元素的概念：Scene、Camera、Object、Geometry、Material、Light、Renderer，初步基礎的了解有助於一開始的範例程式碼解讀， 對於每一項元素的細節與應用將會在之後深入探討。
+> 在開始動手寫 Three.js 之前，先來簡單了解一些 Three.js 中的基本元素的概念：Scene、Camera、Object、Geometry、Material、Light、Renderer，初步基礎的了解有助於一開始的範例程式碼解讀，對於每一項元素的細節與應用將會在之後深入探討。
 
 ![攝影機](https://images.unsplash.com/photo-1490117874548-e35a2286fd89?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0d53f942a201ea88f8c3c01c74b756d4&auto=format&fit=crop&w=1050&q=80)
 Photo by [Jakob Owens](https://unsplash.com/@jakobowens1) on [Unsplash](https://unsplash.com/photos/H6a1mbbXFis)
@@ -31,7 +31,7 @@ Photo by [Nahuel Coppero](https://medium.com/@necsoft) on [Medium](https://mediu
 
 ## 場景（Scene）
 
-場景就是一個容器，用來保存與追蹤所有要呈現到畫面上的內容，在後面的程式碼中會常看到`scene.add(...)`，意思是將元素加到場景中。
+場景就是一個容器，用來保存與追蹤所有要呈現到畫面上的內容，在後面的程式碼中會常看到 `scene.add(...)` ，意思是將元素加到場景中。
 
 ## 相機（Camera）
 
@@ -41,25 +41,25 @@ Photo by [Nahuel Coppero](https://medium.com/@necsoft) on [Medium](https://mediu
 
 ### 透視投影相機（PerspectiveCamera）
 
-![https://ithelp.ithome.com.tw/upload/images/20181014/20107572ExPqQjYjjd.png](https://ithelp.ithome.com.tw/upload/images/20181014/20107572ExPqQjYjjd.png)
+![PerspectiveCamera](https://ithelp.ithome.com.tw/upload/images/20181014/20107572ExPqQjYjjd.png)
 
 相信各位可以明顯感受到，在透視投影相機中，越遠的物體會有比較小的尺寸，更接近真實世界的效果，所以一般在三維場景中，我們會使用這種相機來呈現，讓使用者更有臨場感。
 
 從下圖可以看到，透視投影相機視景體是個四角錐，它透過視角（fov）、畫面長寬比（aspect）、遠近平面距離決定觀察結果。
 
-![https://ithelp.ithome.com.tw/upload/images/20181014/20107572tDgY4WpG3z.jpg](https://ithelp.ithome.com.tw/upload/images/20181014/20107572tDgY4WpG3z.jpg)
+![PerspectiveCameraIntro](https://ithelp.ithome.com.tw/upload/images/20181014/20107572tDgY4WpG3z.jpg)
 
 Photo on [https://www.itread01.com/articles/1476704140.html](https://www.itread01.com/articles/1476704140.html)
 
 ### 正交投影相機（OrthographicCamera）
 
-![https://ithelp.ithome.com.tw/upload/images/20181014/20107572wJtZbwsjhm.png](https://ithelp.ithome.com.tw/upload/images/20181014/20107572wJtZbwsjhm.png)
+![OrthographicCamera](https://ithelp.ithome.com.tw/upload/images/20181014/20107572wJtZbwsjhm.png)
 
 透過比較可以發現，正交投影相機中的物體不論遠近，看起來的尺寸都一樣，這樣的相機一般被用在二維場景中。
 
 如下圖，正交投影相機的視景體是長方體，由於此種相機渲染出的物體大小皆相同，所以並不需要長寬比與視角，而是紀錄遠近平面距離、視景體的上下左右邊界。
 
-![https://ithelp.ithome.com.tw/upload/images/20181014/20107572FzebUauVIc.jpg](https://ithelp.ithome.com.tw/upload/images/20181014/20107572FzebUauVIc.jpg)
+![OrthographicCameraIntro](https://ithelp.ithome.com.tw/upload/images/20181014/20107572FzebUauVIc.jpg)
 
 Photo on [https://www.itread01.com/articles/1476704140.html](https://www.itread01.com/articles/1476704140.html)
 
@@ -70,13 +70,13 @@ Photo on [https://www.itread01.com/articles/1476704140.html](https://www.itread0
 
 #### 網格模型（Mesh）
 
-![https://ithelp.ithome.com.tw/upload/images/20181014/20107572TbrTvCtxq4.png](https://ithelp.ithome.com.tw/upload/images/20181014/20107572TbrTvCtxq4.png)
+![mesh](https://ithelp.ithome.com.tw/upload/images/20181014/20107572TbrTvCtxq4.png)
 
 在 3D 世界的模型中，常以三角形網格為一個單位來組成一個物體，當三角形數量增加，一個物體的表面就越平滑，如上圖。
 
 #### 粒子模型（Points）
 
-![https://ithelp.ithome.com.tw/upload/images/20181014/201075725EchwpExRk.png](https://ithelp.ithome.com.tw/upload/images/20181014/201075725EchwpExRk.png)
+![points](https://ithelp.ithome.com.tw/upload/images/20181014/201075725EchwpExRk.png)
 
 上圖為粒子模型的[官方範例](https://threejs.org/examples/?q=points#webgl_points_sprites)。
 
@@ -90,13 +90,13 @@ Photo on [https://www.itread01.com/articles/1476704140.html](https://www.itread0
 
 #### 幾何體（Geometry）
 
-![https://ithelp.ithome.com.tw/upload/images/20181014/20107572TSjeNFaprl.png](https://ithelp.ithome.com.tw/upload/images/20181014/20107572TSjeNFaprl.png)
+![Geometry](https://ithelp.ithome.com.tw/upload/images/20181014/20107572TSjeNFaprl.png)
 
 幾何體簡單來說就是物體的形狀，通過儲存模型點之間關係來達到描述物體形狀的目的，從一般的平面、球體、正方體到各種扭曲體、多面體應有盡有。
 
 #### 材質（Material）
 
-![https://ithelp.ithome.com.tw/upload/images/20181014/20107572zeHwD9wMfF.png](https://ithelp.ithome.com.tw/upload/images/20181014/20107572zeHwD9wMfF.png)
+![Material](https://ithelp.ithome.com.tw/upload/images/20181014/20107572zeHwD9wMfF.png)
 
 材質簡單來說就是物體的外觀、皮膚，記錄了物體表面除了幾何體以外所有的資訊，像是顏色（color）、紋理（texture）、透明度（opacity）等等。而其中有些材質具有一些對光源產生反應的屬性像是發光度（shininess）、鏡面反射程度（specular）等等，會決定物體會像金屬或像塑膠。
 
@@ -124,4 +124,3 @@ Photo on [https://www.itread01.com/articles/1476704140.html](https://www.itread0
 - [Learning Three.js](https://github.com/josdirksen/learning-threejs)
 - [Three.js 101 : Hello World! (Part 1)](https://medium.com/@necsoft/three-js-101-hello-world-part-1-443207b1ebe1)
 - [Three.js快速入門](https://www.itread01.com/articles/1476704140.html)
-
