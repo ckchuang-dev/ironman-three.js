@@ -26,13 +26,15 @@ function init() {
   camera.lookAt(scene.position)
 
   // 建立光源
-  let light = new THREE.PointLight(0xffffff)
-  light.position.set(10, 10, -10)
-  scene.add(light)
+  let pointLight = new THREE.PointLight(0xffffff)
+  pointLight.position.set(10, 10, -10)
+  scene.add(pointLight)
 
   // 建立物體
   const geometry = new THREE.BoxGeometry(1, 1, 1) // 幾何體
-  const material = new THREE.MeshPhongMaterial({ color: 0x0000ff }) // 材質
+  const material = new THREE.MeshPhongMaterial({
+    color: 0x0000ff
+  }) // 材質
   cube = new THREE.Mesh(geometry, material) // 建立網格物件
   cube.position.set(0, 0, 0)
   scene.add(cube)
