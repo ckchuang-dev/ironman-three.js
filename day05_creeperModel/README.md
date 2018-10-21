@@ -102,14 +102,16 @@ function init(){
 const planeGeometry = new THREE.PlaneGeometry(60, 60)
 const planeMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff })
 let plane = new THREE.Mesh(planeGeometry, planeMaterial)
-plane.rotation.x = -0.5 * Math.PI // 使平面與 Y 軸垂直
+plane.rotation.x = -0.5 * Math.PI // 使平面與 y 軸垂直，並讓正面朝上
 plane.position.set(0, -7, 0)
 scene.add(plane)
 ```
 
 這邊加入一個簡單的平面物體當作地板，目前就只是一個看起來可以立足的地方，但實際上的用途在之後的光影效果會看到。
 
-這邊其中有一行 `plane.rotation.x = -0.5 * Math.PI` 是指將平面的 X 軸方向逆時針轉 180 度才會與 Y 軸垂直。
+這邊其中有一行 `plane.rotation.x = -0.5 * Math.PI`，是指將平面「沿著 x 軸正方向逆時針轉 90 度」。
+
+原因是 `PlaneGeometry` 預設是在 `z = 0` 的 `x-y 平面`上，又在材質屬性中的 `side` 預設是 `THREE.FrontSide` 時只有平面體的前側會反射光線，也就是朝向 z 軸正向的方向，因此為了達到預期的讓此平面呈現為 `y = 0` 的 `x-z 平面`且可以反射光線，需要將平面體「沿著 x 軸正方向逆時針旋轉 90 度」。
 
 ### THREE.AxesHelper
 
@@ -122,7 +124,7 @@ scene.add(axes)
 
 ## 今日小結
 
-今天先完成了一個苦力怕的模型，程式碼跟前天的概念沒差太多，場景、渲染器、燈光等等都一樣，所以只做了簡單的分析，若有任何不懂的地方歡迎在下面留言區發文。
+今天先完成了一個苦力怕的模型，相信大家好像也開始覺得自己又往遊戲工程師的路上前進了一些（握拳），程式碼跟前天的概念沒差太多，場景、渲染器、燈光等等都一樣，所以只做了新東西的分析，若有任何不懂的地方歡迎在下面留言區發文。
 
 目前只先完成了形狀的部分，明天會先來幫這個場景加上一些小工具，方便後面修改材質及光影效果，我們明天見！
 
