@@ -10,15 +10,16 @@ class Creeper {
     const bodyGeo = new THREE.BoxGeometry(4, 8, 2)
     const footGeo = new THREE.BoxGeometry(2, 3, 2)
 
-    // 苦力怕貼圖
+    // 苦力怕臉部貼圖
     const headMap = new THREE.TextureLoader().load(
-      'https://dl.dropboxusercontent.com/s/bkqu0tty04epc46/creeper_face.png'
+      'https://blog.gtwang.org/wp-content/uploads/2016/11/barbwire-20161130-1-816x459.jpg'
     )
+    // 苦力怕皮膚貼圖
     const skinMap = new THREE.TextureLoader().load(
       'https://dl.dropboxusercontent.com/s/eev6wxdxfmukkt8/creeper_skin.png'
     )
 
-    //
+    // 身體與腳的材質設定
     const skinMat = new THREE.MeshStandardMaterial({
       roughness: 0.3, // 粗糙度
       metalness: 0.8, // 金屬感
