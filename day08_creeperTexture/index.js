@@ -12,7 +12,7 @@ class Creeper {
 
     // 苦力怕臉部貼圖
     const headMap = new THREE.TextureLoader().load(
-      'https://blog.gtwang.org/wp-content/uploads/2016/11/barbwire-20161130-1-816x459.jpg'
+      'https://dl.dropboxusercontent.com/s/bkqu0tty04epc46/creeper_face.png'
     )
     // 苦力怕皮膚貼圖
     const skinMap = new THREE.TextureLoader().load(
