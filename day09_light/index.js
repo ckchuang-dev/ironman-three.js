@@ -67,6 +67,14 @@ class Creeper {
     this.creeper.add(this.head)
     this.creeper.add(this.body)
     this.creeper.add(this.feet)
+
+    // 苦力怕投影設定，利用 traverse 遍歷各個子元件設定陰影
+    this.creeper.traverse(function(object) {
+      if (object instanceof THREE.Mesh) {
+        object.castShadow = true
+        object.receiveShadow = true
+      }
+    })
   }
 }
 
@@ -118,6 +126,8 @@ function init() {
   // 渲染器設定
   renderer = new THREE.WebGLRenderer()
   renderer.setSize(window.innerWidth, window.innerHeight)
+  renderer.shadowMap.enabled = true
+  renderer.shadowMap.type = 2 // THREE.PCFSoftShadowMap
 
   // 簡單的地板
   const planeGeometry = new THREE.PlaneGeometry(60, 60)
@@ -125,6 +135,7 @@ function init() {
   let plane = new THREE.Mesh(planeGeometry, planeMaterial)
   plane.rotation.x = -0.5 * Math.PI
   plane.position.set(0, -7, 0)
+  plane.receiveShadow = true
   scene.add(plane)
 
   // 產生苦力怕物體
@@ -137,7 +148,7 @@ function init() {
 
   // 基本點光源 PointLight
   pointLight = new THREE.PointLight(0xeeff00)
-  pointLight.visible = false
+  pointLight.castShadow = true
   pointLight.position.set(-10, 20, 20)
   scene.add(pointLight)
   let pointLightHelper = new THREE.PointLightHelper(pointLight)
@@ -148,6 +159,7 @@ function init() {
   // 設置聚光燈 SpotLight
   spotLight = new THREE.SpotLight(0xeeff00)
   spotLight.position.set(-10, 20, 20)
+  spotLight.castShadow = true
   scene.add(spotLight)
   let spotLightHelper = new THREE.SpotLightHelper(spotLight)
   scene.add(spotLightHelper)
@@ -157,6 +169,7 @@ function init() {
   // 基本平行光 DirectionalLight
   directionalLight = new THREE.DirectionalLight(0xeeff00)
   directionalLight.position.set(-10, 20, 20)
+  directionalLight.castShadow = true
   scene.add(directionalLight)
   let directionalLightHelper = new THREE.DirectionalLightHelper(
     directionalLight
