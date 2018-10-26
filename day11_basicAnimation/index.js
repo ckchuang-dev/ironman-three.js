@@ -1,8 +1,6 @@
 let renderer, scene, camera
 let cameraControl, stats, gui
 let creeperObj, plane
-let rayCaster
-let mouse = new THREE.Vector2()
 let rotateHeadOffset = 0,
   walkOffset = 0,
   scaleHeadOffset = 0
@@ -127,8 +125,6 @@ function init() {
 
   stats = initStats()
 
-  rayCaster = new THREE.Raycaster()
-
   // 渲染器設定
   renderer = new THREE.WebGLRenderer()
   renderer.setSize(window.innerWidth, window.innerHeight)
@@ -164,6 +160,7 @@ function init() {
   pointLight.position.set(-30, 30, 30)
   scene.add(pointLight)
 
+  // dat.GUI 控制面板
   gui = new dat.GUI()
   gui.add(datGUIControls, 'startRotateHead').onChange(function(e) {
     startRotateHead = e
@@ -176,17 +173,17 @@ function init() {
   })
 
   document.body.appendChild(renderer.domElement)
-  document.addEventListener('click', onMouseClick, false)
 }
 
+// 苦力怕擺頭
 function creeperHeadRotate() {
   rotateHeadOffset += 0.04
   if (startRotateHead) {
-    // 搖頭
-    creeperObj.head.rotation.y = Math.sin(rotateHeadOffset) / 2
+    creeperObj.head.rotation.y = Math.sin(rotateHeadOffset)
   }
 }
 
+// 苦力怕走動
 function creeperFeetWalk() {
   walkOffset += 0.04
   // console.log(startWalking)
@@ -199,30 +196,12 @@ function creeperFeetWalk() {
   }
 }
 
+// 苦力怕膨脹
 function creeperScaleBody() {
-  scaleHeadOffset += 0.05
+  scaleHeadOffset += 0.04
   if (startScaleBody) {
-    // 身體變大
-    let scaleZ = 2 * Math.abs(Math.sin(scaleHeadOffset))
-    creeperObj.body.scale.z = scaleZ
-  }
-}
-
-// ray caster
-function onMouseClick(event) {
-  event.preventDefault()
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-  rayCaster.setFromCamera(mouse, camera)
-  let intersects = rayCaster.intersectObjects(scene.children)
-
-  if (
-    intersects &&
-    intersects[0] &&
-    intersects[0].object &&
-    intersects[0].object.name === 'floor'
-  ) {
-    plane.material.color.setHex(Math.random() * 0xffffff)
+    let scaleRate = Math.abs(Math.sin(scaleHeadOffset)) / 16 + 1
+    creeperObj.creeper.scale.set(scaleRate, scaleRate, scaleRate)
   }
 }
 
