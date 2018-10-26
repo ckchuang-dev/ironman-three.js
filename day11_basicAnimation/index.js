@@ -186,13 +186,11 @@ function creeperHeadRotate() {
 // 苦力怕走動
 function creeperFeetWalk() {
   walkOffset += 0.04
-  // console.log(startWalking)
   if (startWalking) {
-    // 走路
     creeperObj.foot1.rotation.x = Math.sin(walkOffset) / 4 // 前腳左
     creeperObj.foot2.rotation.x = -Math.sin(walkOffset) / 4 // 後腳左
     creeperObj.foot3.rotation.x = -Math.sin(walkOffset) / 4 // 前腳右
-    creeperObj.foot4.rotation.x = Math.sin(walkOffset) / 4 // 後腳左
+    creeperObj.foot4.rotation.x = Math.sin(walkOffset) / 4 // 後腳右
   }
 }
 
