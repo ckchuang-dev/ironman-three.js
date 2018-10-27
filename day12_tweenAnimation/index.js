@@ -2,7 +2,8 @@ let renderer, scene, camera
 let cameraControl, stats, gui
 let creeperObj
 let walkSpeed = 0
-let tween
+let tween, tweenBack
+let invert = 1 // 正反向
 let startTracking = false
 
 // 苦力怕物件
@@ -159,10 +160,18 @@ function init() {
   gui = new dat.GUI()
   gui.add(datGUIControls, 'startTracking').onChange(function(e) {
     startTracking = e
-    if (startTracking) {
-      tween.start()
+    if (invert > 0) {
+      if (startTracking) {
+        tween.start()
+      } else {
+        tween.stop()
+      }
     } else {
-      tween.stop()
+      if (startTracking) {
+        tweenBack.start()
+      } else {
+        tweenBack.stop()
+      }
     }
   })
 
@@ -170,66 +179,80 @@ function init() {
 }
 
 function tweenHandler() {
-  let coords = { x: 0, y: 0, z: 0, rotateY: 0 }
-  let target = { x: 20, y: 0, z: 20, rotateY: 0 }
+  let offset = { x: 0, z: 0, rotateY: 0 }
+  let target = { x: 20, z: 20, rotateY: 0.7853981633974484 } // 目標值
 
+  // 苦力怕走動及轉身補間動畫
   const onUpdate = () => {
-    creeperObj.foot1.position.z = coords.z + 2 // 前腳左
-    creeperObj.foot2.position.z = coords.z - 2 // 後腳左
-    creeperObj.foot3.position.z = coords.z + 2 // 前腳右
-    creeperObj.foot4.position.z = coords.z - 2 // 後腳右
-    creeperObj.head.position.z = coords.z
-    creeperObj.body.position.z = coords.z
+    // 移動
+    creeperObj.feet.position.x = offset.x
+    creeperObj.feet.position.z = offset.z
+    creeperObj.head.position.x = offset.x
+    creeperObj.head.position.z = offset.z
+    creeperObj.body.position.x = offset.x
+    creeperObj.body.position.z = offset.z
 
-    creeperObj.foot1.position.x = coords.x - 1 // 前腳左
-    creeperObj.foot2.position.x = coords.x - 1 // 後腳左
-    creeperObj.foot3.position.x = coords.x + 1 // 前腳右
-    creeperObj.foot4.position.x = coords.x + 1 // 後腳右
-    creeperObj.head.position.x = coords.x
-    creeperObj.body.position.x = coords.x
-
-    creeperObj.foot1.rotation.y = -coords.rotateY // 前腳左
-    creeperObj.foot2.rotation.y = -coords.rotateY // 後腳左
-    creeperObj.foot3.rotation.y = -coords.rotateY // 前腳右
-    creeperObj.foot4.rotation.y = -coords.rotateY // 後腳右
-    creeperObj.head.rotation.y = -coords.rotateY
-    creeperObj.body.rotation.y = -coords.rotateY
+    // 轉身
+    if (target.x > 0) {
+      creeperObj.feet.rotation.y = offset.rotateY
+      creeperObj.head.rotation.y = offset.rotateY
+      creeperObj.body.rotation.y = offset.rotateY
+    } else {
+      creeperObj.feet.rotation.y = -offset.rotateY
+      creeperObj.head.rotation.y = -offset.rotateY
+      creeperObj.body.rotation.y = -offset.rotateY
+    }
   }
 
-  tween = new TWEEN.Tween(coords)
+  // 計算新的目標值
+  const handleNewTarget = () => {
+    // 限制苦力怕走路邊界
+    if (camera.position.x > 30) target.x = 20
+    else if (camera.position.x < -30) target.x = -20
+    else target.x = camera.position.x
+    if (camera.position.z > 30) target.z = 20
+    else if (camera.position.z < -30) target.z = -20
+    else target.z = camera.position.z
+
+    const v1 = new THREE.Vector2(0, 1) // 原點面向方向
+    const v2 = new THREE.Vector2(target.x, target.z) // 苦力怕面向新相機方向
+
+    // 內積除以純量得兩向量 cos 值
+    let cosValue = v1.dot(v2) / (v1.length() * v2.length())
+
+    // 防呆，cos 值區間為（-1, 1）
+    if (cosValue > 1) cosValue = 1
+    else if (cosValue < -1) cosValue = -1
+
+    // cos 值求轉身角度
+    target.rotateY = Math.acos(cosValue)
+  }
+
+  // 朝相機移動
+  tween = new TWEEN.Tween(offset)
     .to(target, 3000)
-    .easing(TWEEN.Easing.Sinusoidal.InOut)
+    .easing(TWEEN.Easing.Quadratic.Out)
     .onUpdate(onUpdate)
     .onComplete(() => {
-      const v1 = new THREE.Vector2(target.x, target.z)
-      const v2 = new THREE.Vector2(0, 0)
-      target.rotateY = Math.acos(v1.dot(v2) / (v1.length() * v2.length()))
+      invert = -1
       tweenBack.start()
     })
 
-  let tweenBack = new TWEEN.Tween(coords)
-    .to({ x: 0, y: 0, z: 0, rotateY: target.rotateY }, 3000)
-    .easing(TWEEN.Easing.Sinusoidal.InOut)
+  // 回原點
+  tweenBack = new TWEEN.Tween(offset)
+    .to({ x: 0, z: 0, rotateY: 0 }, 3000)
+    .easing(TWEEN.Easing.Quadratic.Out)
     .onUpdate(onUpdate)
     .onComplete(() => {
-      // target = { x: camera.position.x, y: 0, z: camera.position.z } // bug，不會更新 target
-      const v1 = new THREE.Vector2(target.x, target.z)
-      const v2 = new THREE.Vector2(camera.position.x, camera.position.z)
-      target.rotateY = Math.acos(v1.dot(v2) / (v1.length() * v2.length()))
-      if (camera.position.x > 30) target.x = 15
-      else if (camera.position.x < -30) target.x = -15
-      else target.x = camera.position.x
-      if (camera.position.z > 30) target.z = 15
-      else if (camera.position.z < -30) target.z = -15
-      else target.z = camera.position.z
-
+      handleNewTarget() // 計算新的目標值
+      invert = 1
       tween.start()
     })
 }
 
+// 苦力怕原地走動動畫
 function creeperFeetWalk() {
   walkSpeed += 0.04
-  // 走路
   creeperObj.foot1.rotation.x = Math.sin(walkSpeed) / 4 // 前腳左
   creeperObj.foot2.rotation.x = -Math.sin(walkSpeed) / 4 // 後腳左
   creeperObj.foot3.rotation.x = -Math.sin(walkSpeed) / 4 // 前腳右
