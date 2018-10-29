@@ -32,8 +32,6 @@ function createPoints() {
     const y = THREE.Math.randInt(-range, range)
     const z = THREE.Math.randInt(-range, range)
     const point = new THREE.Vector3(x, y, z)
-    point.velocityX = THREE.Math.randFloat(-0.16, 0.16)
-    point.velocityY = THREE.Math.randFloat(0.1, 0.3)
     geometry.vertices.push(point)
   }
 
@@ -76,21 +74,7 @@ function init() {
   document.body.appendChild(renderer.domElement)
 }
 
-function pointsAnimation() {
-  points.geometry.vertices.forEach(function(v) {
-    v.y = v.y - v.velocityY
-    v.x = v.x - v.velocityX
-
-    if (v.y <= -250) v.y = 250
-    if (v.x <= -250 || v.x >= 250) v.velocityX = v.velocityX * -1
-  })
-
-  // console.log(points.geometry)
-  points.geometry.verticesNeedUpdate = true // 告訴渲染器需更新頂點位置
-}
-
 function render() {
-  pointsAnimation()
   stats.update()
   requestAnimationFrame(render)
   cameraControl.update()
