@@ -11,7 +11,7 @@ const sound = document.querySelector('audio')
 let sceneType = 'SNOW'
 
 // points
-const particleCount = 1000
+const particleCount = 15000
 let points
 let material
 const textureLoader = new THREE.TextureLoader()
@@ -134,16 +134,15 @@ function createPoints() {
     transparent: true,
     opacity: 0.5
   })
-  // material.color.setHSL(1.0, 0.3, 0.7)
 
   const range = 300
   for (let i = 0; i < particleCount; i++) {
-    const x = Math.random() * range - range / 2
-    const y = Math.random() * range * 3 - 7
-    const z = Math.random() * range - range / 2
+    const x = THREE.Math.randInt(-range / 2, range / 2)
+    const y = THREE.Math.randInt(0, range * 20)
+    const z = THREE.Math.randInt(-range / 2, range / 2)
     const point = new THREE.Vector3(x, y, z)
-    point.velocityX = (Math.random() - 0.5) / 3
-    point.velocityY = 0.1 + Math.random() / 5
+    point.velocityX = THREE.Math.randFloat(-0.16, 0.16)
+    point.velocityY = THREE.Math.randFloat(0.1, 0.3)
     geometry.vertices.push(point)
   }
 
@@ -333,7 +332,7 @@ function tweenHandler() {
       tweenBack.start()
     })
 
-  // 回原點
+  // 隨機移動
   tweenBack = new TWEEN.Tween(offset)
     .to(target, 15000)
     .easing(TWEEN.Easing.Quadratic.Out)
