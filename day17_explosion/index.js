@@ -5,7 +5,7 @@ let cameraControl, stats, gui
 const pointCount = 10000
 const movementSpeed = 20
 let explosion
-let size = 150
+let size = 20
 const textureLoader = new THREE.TextureLoader()
 const smokeTexture = textureLoader.load('./smoke.png')
 
@@ -24,7 +24,7 @@ let controls = new function() {
     }
     explosion = new Explosion(0, 0)
   }
-  this.pointSize = 150
+  this.pointSize = 20
   this.cameraNear = 500
   // this.pointCount = 1000
 }()
