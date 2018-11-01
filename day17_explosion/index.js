@@ -24,7 +24,7 @@ let controls = new function() {
     }
     explosion = new Explosion(0, 0)
   }
-  this.pointSize = 50
+  this.pointSize = 150
   this.cameraNear = 500
   // this.pointCount = 1000
 }()
@@ -51,7 +51,7 @@ class Explosion {
     for (let i = 0; i < this.pCount; i++) {
       const vertex = new THREE.Vector3(x, y, 0) // 每個頂點起點都在爆炸起源點
       geometry.vertices.push(vertex)
-      const r = this.movementSpeed * THREE.Math.randFloat(0, 1)
+      const r = this.movementSpeed * THREE.Math.randFloat(0, 1) + 2
       // 噴射方向隨機 -> 不規則球體
       const theta = Math.random() * Math.PI * 2
       const phi = Math.random() * Math.PI
