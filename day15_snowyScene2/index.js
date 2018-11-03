@@ -21,7 +21,7 @@ function createPoints() {
     size: 5,
     map: texture,
     blending: THREE.AdditiveBlending,
-    depthTest: false,
+    depthWrite: false,
     transparent: true,
     opacity: 0.7
   })
