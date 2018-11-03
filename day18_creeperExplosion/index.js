@@ -23,7 +23,7 @@ class Explosion {
       color: color,
       map: smokeTexture,
       blending: THREE.CustomBlending,
-      depthTest: false,
+      depthWrite: false,
       transparent: true,
       opacity: 0.7
     })
