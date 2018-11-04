@@ -2,6 +2,15 @@
 let renderer, scene, camera
 let cameraControl, stats, gui
 
+// Cannon.js
+let world
+let groundBody
+let sphereBody
+let sphere
+let friction = 0.5
+let restitution = 0.7
+let sphereGroundContact
+
 function initStats() {
   const stats = new Stats()
   stats.setMode(0)
@@ -12,7 +21,11 @@ function initStats() {
 let controls = new function() {
   this.resetBall = function() {
     sphereBody.position.set(0, 10, 0)
+    sphereGroundContact.friction = friction
+    sphereGroundContact.restitution = restitution
   }
+  this.friction = 0.5
+  this.restitution = 0.7
 }()
 
 function initThreeSetting() {
@@ -30,12 +43,18 @@ function initThreeSetting() {
   let axes = new THREE.AxesHelper(20)
   scene.add(axes)
 
-  cameraControl = new THREE.OrbitControls(camera)
+  // cameraControl = new THREE.OrbitControls(camera)
 
   stats = initStats()
 
   gui = new dat.GUI()
   gui.add(controls, 'resetBall')
+  gui.add(controls, 'friction', 0, 2).onChange(e => {
+    friction = e
+  })
+  gui.add(controls, 'restitution', 0, 2).onChange(e => {
+    restitution = e
+  })
 
   renderer = new THREE.WebGLRenderer()
   renderer.setClearColor(0xeeeeee, 1.0)
@@ -56,39 +75,45 @@ function initThreeSetting() {
   document.body.appendChild(renderer.domElement)
 }
 
-// Cannon.js
-let world
-let sphereBody
-let sphere
-
 function initCannonWorld() {
-  // 建立世界
+  // 建立物理世界
   world = new CANNON.World()
 
-  // 設定重力場為 -y 軸 10 m/s²
-  world.gravity.set(0, -10, 0)
+  // 設定重力場為 y 軸 -9.8 m/s²
+  world.gravity.set(0, -9.8, 0)
 
   // 碰撞偵測
   world.broadphase = new CANNON.NaiveBroadphase()
 
   // 建立地板剛體
   let groundShape = new CANNON.Plane()
-  let groundBody = new CANNON.Body({
+  let groundCM = new CANNON.Material()
+  groundBody = new CANNON.Body({
     mass: 0,
-    shape: groundShape
+    shape: groundShape,
+    material: groundCM
   })
   // setFromAxisAngle 旋轉 x 軸 -90 度
   groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
   world.add(groundBody)
 
   // 建立球剛體
-  let sphereShape = new CANNON.Sphere(1) // Step 1
+  let sphereShape = new CANNON.Sphere(1)
+  let sphereCM = new CANNON.Material()
   sphereBody = new CANNON.Body({
     mass: 5,
+    shape: sphereShape,
     position: new CANNON.Vec3(0, 10, 0),
-    shape: sphereShape
+    material: sphereCM
   })
   world.add(sphereBody)
+
+  // 設定兩剛體碰撞時交互作用屬性
+  sphereGroundContact = new CANNON.ContactMaterial(groundCM, sphereCM, {
+    friction: friction, // 摩擦力
+    restitution: restitution // 恢復係數, 衡量兩個物體碰撞後反彈程度
+  })
+  world.addContactMaterial(sphereGroundContact)
 
   // 地板網格
   let groundGeometry = new THREE.PlaneGeometry(20, 20, 32)
@@ -120,7 +145,7 @@ function render() {
 
   stats.update()
   requestAnimationFrame(render)
-  cameraControl.update()
+  // cameraControl.update()
   renderer.render(scene, camera)
 }
 
