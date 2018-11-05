@@ -17,6 +17,7 @@ let moveBackward = false
 let moveLeft = false
 let moveRight = false
 let canJump = false
+let raycaster
 let prevTime = performance.now()
 let velocity = new THREE.Vector3()
 let direction = new THREE.Vector3()
@@ -160,27 +161,38 @@ function initStats() {
 }
 
 function initPointerLockControls() {
+  // 鼠標鎖定初始化
   controls = new THREE.PointerLockControls(camera)
   controls.getObject().position.set(10, 0, 60)
   scene.add(controls.getObject())
 
+  // 因為鼠標鎖定控制器需要通過用戶觸發，所以需要進入畫面
   const blocker = document.getElementById('blocker')
   const instructions = document.getElementById('instructions')
-  instructions.addEventListener(
-    'click',
-    function() {
-      controls.lock()
-    },
-    false
-  )
-  controls.addEventListener('lock', function() {
-    instructions.style.display = 'none'
-    blocker.style.display = 'none'
-  })
-  controls.addEventListener('unlock', function() {
-    blocker.style.display = 'block'
-    instructions.style.display = ''
-  })
+  const havePointerLock =
+    'pointerLockElement' in document ||
+    'mozPointerLockElement' in document ||
+    'webkitPointerLockElement' in document
+  if (havePointerLock) {
+    instructions.addEventListener(
+      'click',
+      function() {
+        controls.lock()
+      },
+      false
+    )
+    controls.addEventListener('lock', function() {
+      instructions.style.display = 'none'
+      blocker.style.display = 'none'
+    })
+    controls.addEventListener('unlock', function() {
+      blocker.style.display = 'block'
+      instructions.style.display = ''
+    })
+  } else {
+    instructions.innerHTML = '你的瀏覽器不支援鼠標鎖定控制器！'
+  }
+
   const onKeyDown = function(event) {
     switch (event.keyCode) {
       case 38: // up
@@ -198,6 +210,10 @@ function initPointerLockControls() {
       case 39: // right
       case 68: // d
         moveRight = true
+        break
+      case 32: // space
+        if (canJump === true) velocity.y += 350
+        canJump = false
         break
     }
   }
@@ -223,13 +239,21 @@ function initPointerLockControls() {
   }
   document.addEventListener('keydown', onKeyDown, false)
   document.addEventListener('keyup', onKeyUp, false)
+
+  // 使用 Raycaster 實現簡單碰撞偵測
+  raycaster = new THREE.Raycaster(
+    new THREE.Vector3(),
+    new THREE.Vector3(0, -1, 0),
+    0,
+    10
+  )
 }
 
 // Three.js init setting
 function init() {
   scene = new THREE.Scene()
-  scene.fog = new THREE.FogExp2(0x000000, 0.0008)
-  // scene.fog = new THREE.Fog(0xffffff, 0, 500)
+  // scene.fog = new THREE.FogExp2(0x000000, 0.0008)
+  scene.fog = new THREE.Fog(0xffffff, 0, 500)
 
   // camera
   camera = new THREE.PerspectiveCamera(
@@ -421,11 +445,14 @@ function pointsAnimation() {
   points.geometry.verticesNeedUpdate = true
 }
 
-function pointerLockControlsAnimation() {
+function pointerLockControlsRender() {
   if (controls.isLocked === true) {
-    var onObject = true
-    var time = performance.now()
-    var delta = (time - prevTime) / 1000
+    raycaster.ray.origin.copy(controls.getObject().position)
+    raycaster.ray.origin.y -= 10
+    const intersections = raycaster.intersectObjects(scene.children, true)
+    const onObject = intersections.length > 0
+    const time = performance.now()
+    const delta = (time - prevTime) / 1000
     velocity.x -= velocity.x * 10.0 * delta
     velocity.z -= velocity.z * 10.0 * delta
     velocity.y -= 9.8 * 100.0 * delta // 100.0 = mass
@@ -456,7 +483,7 @@ function render() {
   creeperFeetWalk()
   pointsAnimation()
   TWEEN.update()
-  pointerLockControlsAnimation()
+  pointerLockControlsRender()
   renderer.render(scene, camera)
 }
 
