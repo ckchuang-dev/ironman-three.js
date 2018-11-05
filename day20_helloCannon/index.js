@@ -21,6 +21,7 @@ function initStats() {
 let controls = new function() {
   this.resetBall = function() {
     sphereBody.position.set(0, 10, 0)
+    sphereBody.velocity.set(0, 0, 0)
     sphereGroundContact.friction = friction
     sphereGroundContact.restitution = restitution
   }
