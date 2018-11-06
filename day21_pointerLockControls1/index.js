@@ -18,9 +18,6 @@ let moveLeft = false
 let moveRight = false
 let canJump = false
 let raycaster
-let prevTime = performance.now()
-let velocity = new THREE.Vector3()
-let direction = new THREE.Vector3()
 
 // points
 const particleCount = 15000
@@ -212,7 +209,7 @@ function initPointerLockControls() {
         moveRight = true
         break
       case 32: // space
-        if (canJump === true) velocity.y += 350
+        if (canJump === true) velocity.y += 350 // 跳躍高度
         canJump = false
         break
     }
@@ -445,34 +442,51 @@ function pointsAnimation() {
   points.geometry.verticesNeedUpdate = true
 }
 
+let prevTime = Date.now() // 初始時間
+let velocity = new THREE.Vector3() // 移動速度向量
+let direction = new THREE.Vector3() // 移動方向向量
+
 function pointerLockControlsRender() {
   if (controls.isLocked === true) {
-    raycaster.ray.origin.copy(controls.getObject().position)
-    raycaster.ray.origin.y -= 10
+    // 使用 Raycaster 判斷腳下是否與場景中物體相交
+    raycaster.ray.origin.copy(controls.getObject().position) // 複製玩家視角的位置
     const intersections = raycaster.intersectObjects(scene.children, true)
     const onObject = intersections.length > 0
-    const time = performance.now()
+
+    // 計算時間差
+    const time = Date.now()
     const delta = (time - prevTime) / 1000
+
+    // 設定初始速度變化
     velocity.x -= velocity.x * 10.0 * delta
     velocity.z -= velocity.z * 10.0 * delta
     velocity.y -= 9.8 * 100.0 * delta // 100.0 = mass
+
+    // 判斷按鍵朝什麼方向移動，並設定對應速度變化
     direction.z = Number(moveForward) - Number(moveBackward)
     direction.x = Number(moveLeft) - Number(moveRight)
     direction.normalize() // this ensures consistent movements in all directions
     if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta
     if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta
+
+    // 處理跳躍對應 y 軸方向速度變化
     if (onObject === true) {
       velocity.y = Math.max(0, velocity.y)
       canJump = true
     }
+
+    // 根據速度值移動玩家視角位置
     controls.getObject().translateX(velocity.x * delta)
     controls.getObject().translateY(velocity.y * delta)
     controls.getObject().translateZ(velocity.z * delta)
-    if (controls.getObject().position.y < 10) {
+
+    // 使用者下墜超過 -2000 則重置位置
+    if (controls.getObject().position.y < -2000) {
       velocity.y = 0
-      controls.getObject().position.y = 10
+      controls.getObject().position.set(10, 100, 60)
       canJump = true
     }
+
     prevTime = time
   }
 }
