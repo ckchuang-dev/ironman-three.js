@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Day 23 - Cannon.js</title>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+  <div id="stats"></div>
+  <div id="blocker">
+    <div id="instructions">
+      <span style="font-size:40px">點擊開始</span>
+      <br />
+      (W, A, S, D = 控制移動方向, SPACE = 跳躍, MOUSE = 轉動視角)
+    </div>
+
+  </div>
+
+  <script src="./lib/three.min.js"></script><!-- r98 -->
+  <script src="./lib/cannon.min.js"></script><!-- 0.6.2 -->
+  <!-- <script src="./lib/OrbitControls.js"></script> -->
+  <script src="./lib/Stats.min.js"></script><!-- r16 -->
+  <script src="./lib/dat.gui.min.js"></script><!-- 0.7.3 -->
+  <script src="./lib/Tween.min.js"></script><!-- 17.2.0 -->
+  <script src="./lib/PointerLockControls.js"></script>
+  <script src="./js/creeperModule.js"></script>
+  <script src="./js/pointsSceneModule.js"></script>
+  <script src="./js/creeperAnimationModule.js"></script>
+  <script src="./js/datGuiControlModule.js"></script>
+  <script src="./js/pointerLockControlsModule.js"></script>
+  <script src="./js/explosionModule.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+</html>
