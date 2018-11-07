@@ -449,23 +449,23 @@ let direction = new THREE.Vector3() // 移動方向向量
 function pointerLockControlsRender() {
   if (controls.isLocked === true) {
     // 使用 Raycaster 判斷腳下是否與場景中物體相交
-    raycaster.ray.origin.copy(controls.getObject().position) // 複製玩家視角的位置
-    const intersections = raycaster.intersectObjects(scene.children, true)
+    raycaster.ray.origin.copy(controls.getObject().position) // 複製控制器的位置
+    const intersections = raycaster.intersectObjects(scene.children, true) // 判斷是否在任何物體上
     const onObject = intersections.length > 0
 
     // 計算時間差
     const time = Date.now()
-    const delta = (time - prevTime) / 1000
+    const delta = (time - prevTime) / 1000 // 大約為 0.016
 
     // 設定初始速度變化
     velocity.x -= velocity.x * 10.0 * delta
     velocity.z -= velocity.z * 10.0 * delta
-    velocity.y -= 9.8 * 100.0 * delta // 100.0 = mass
+    velocity.y -= 9.8 * 100.0 * delta // 預設墜落速度
 
-    // 判斷按鍵朝什麼方向移動，並設定對應速度變化
+    // 判斷按鍵朝什麼方向移動，並設定對應方向速度變化
     direction.z = Number(moveForward) - Number(moveBackward)
     direction.x = Number(moveLeft) - Number(moveRight)
-    direction.normalize() // this ensures consistent movements in all directions
+    // direction.normalize() // 向量正規化（長度為 1），確保每個方向保持一定移動量
     if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta
     if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta
 
@@ -475,12 +475,14 @@ function pointerLockControlsRender() {
       canJump = true
     }
 
-    // 根據速度值移動玩家視角位置
+    // 根據速度值移動控制器位置
     controls.getObject().translateX(velocity.x * delta)
     controls.getObject().translateY(velocity.y * delta)
     controls.getObject().translateZ(velocity.z * delta)
+    console.log(velocity.z)
+    console.log(controls.getObject().position.z)
 
-    // 使用者下墜超過 -2000 則重置位置
+    // 控制器下墜超過 -2000 則重置位置
     if (controls.getObject().position.y < -2000) {
       velocity.y = 0
       controls.getObject().position.set(10, 100, 60)
