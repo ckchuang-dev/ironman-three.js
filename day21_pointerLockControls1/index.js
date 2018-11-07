@@ -479,8 +479,6 @@ function pointerLockControlsRender() {
     controls.getObject().translateX(velocity.x * delta)
     controls.getObject().translateY(velocity.y * delta)
     controls.getObject().translateZ(velocity.z * delta)
-    console.log(velocity.z)
-    console.log(controls.getObject().position.z)
 
     // 控制器下墜超過 -2000 則重置位置
     if (controls.getObject().position.y < -2000) {
