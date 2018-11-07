@@ -249,8 +249,8 @@ function initPointerLockControls() {
 // Three.js init setting
 function init() {
   scene = new THREE.Scene()
-  // scene.fog = new THREE.FogExp2(0x000000, 0.0008)
-  scene.fog = new THREE.Fog(0xffffff, 0, 500)
+  scene.fog = new THREE.FogExp2(0x000000, 0.0008)
+  // scene.fog = new THREE.Fog(0xffffff, 0, 500)
 
   // camera
   camera = new THREE.PerspectiveCamera(
