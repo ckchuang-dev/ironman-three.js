@@ -2,32 +2,32 @@
  * @author mrdoob / http://mrdoob.com/
  * @author schteppe / https://github.com/schteppe
  */
-var PointerLockControls = function(camera, cannonBody) {
-  var eyeYPos = 2 // eyes are 2 meters above the ground
-  var velocityFactor = 0.2
-  var jumpVelocity = 15
-  var scope = this
+let PointerLockControls = function(camera, cannonBody) {
+  let eyeYPos = 2 // eyes are 2 meters above the ground
+  let velocityFactor = 0.2
+  let jumpVelocity = 15
+  let scope = this
 
-  var pitchObject = new THREE.Object3D()
+  let pitchObject = new THREE.Object3D()
   pitchObject.add(camera)
 
-  var yawObject = new THREE.Object3D()
+  let yawObject = new THREE.Object3D()
   yawObject.position.y = 2
   yawObject.add(pitchObject)
 
-  var quat = new THREE.Quaternion()
+  let quat = new THREE.Quaternion()
 
-  var moveForward = false
-  var moveBackward = false
-  var moveLeft = false
-  var moveRight = false
+  let moveForward = false
+  let moveBackward = false
+  let moveLeft = false
+  let moveRight = false
 
-  var canJump = false
+  let canJump = false
 
-  var contactNormal = new CANNON.Vec3() // Normal in the contact, pointing *out* of whatever the player touched
-  var upAxis = new CANNON.Vec3(0, 1, 0)
+  let contactNormal = new CANNON.Vec3() // Normal in the contact, pointing *out* of whatever the player touched
+  let upAxis = new CANNON.Vec3(0, 1, 0)
   cannonBody.addEventListener('collide', function(e) {
-    var contact = e.contact
+    let contact = e.contact
 
     // contact.bi and contact.bj are the colliding bodies, and contact.ni is the collision normal.
     // We do not yet know which one is which! Let's check.
@@ -42,16 +42,16 @@ var PointerLockControls = function(camera, cannonBody) {
       canJump = true
   })
 
-  var velocity = cannonBody.velocity
+  let velocity = cannonBody.velocity
 
-  var PI_2 = Math.PI / 2
+  let PI_2 = Math.PI / 2
 
-  var onMouseMove = function(event) {
+  let onMouseMove = function(event) {
     if (scope.enabled === false) return
 
-    var movementX =
+    let movementX =
       event.movementX || event.mozMovementX || event.webkitMovementX || 0
-    var movementY =
+    let movementY =
       event.movementY || event.mozMovementY || event.webkitMovementY || 0
 
     yawObject.rotation.y -= movementX * 0.002
@@ -63,7 +63,7 @@ var PointerLockControls = function(camera, cannonBody) {
     )
   }
 
-  var onKeyDown = function(event) {
+  let onKeyDown = function(event) {
     switch (event.keyCode) {
       case 38: // up
       case 87: // w
@@ -94,7 +94,7 @@ var PointerLockControls = function(camera, cannonBody) {
     }
   }
 
-  var onKeyUp = function(event) {
+  let onKeyUp = function(event) {
     switch (event.keyCode) {
       case 38: // up
       case 87: // w
@@ -134,10 +134,16 @@ var PointerLockControls = function(camera, cannonBody) {
   }
 
   // Moves the camera to the Cannon.js object position and adds velocity to the object if the run key is down
-  var inputVelocity = new THREE.Vector3()
-  var euler = new THREE.Euler()
+  let inputVelocity = new THREE.Vector3()
+  let euler = new THREE.Euler()
   this.update = function(delta) {
-    if (scope.enabled === false) return
+    if (scope.enabled === false) {
+      moveForward = false
+      moveLeft = false
+      moveBackward = false
+      moveRight = false
+      return
+    }
 
     delta *= 0.1
 
