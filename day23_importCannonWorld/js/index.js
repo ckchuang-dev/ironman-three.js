@@ -159,9 +159,9 @@ function createBoxes(count) {
   )
 
   for (let i = 0; i < count; i++) {
-    const x = (Math.random() - 0.5) * 20
+    const x = (Math.random() - 0.5) * 30
     const y = 10 + (Math.random() - 0.5) * 1
-    const z = (Math.random() - 0.5) * 20
+    const z = (Math.random() - 0.5) * 30
     const boxBody = new CANNON.Body({ mass: 5 })
     boxBody.addShape(boxShape)
     const boxMaterial = new THREE.MeshLambertMaterial({
@@ -193,7 +193,7 @@ function init() {
 
   createGround()
   createCreeper()
-  createBoxes(7)
+  createBoxes(30)
   createPointsScene()
 
   document.body.appendChild(renderer.domElement)
