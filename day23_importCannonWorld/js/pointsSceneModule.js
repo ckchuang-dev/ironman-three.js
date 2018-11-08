@@ -35,7 +35,7 @@ function createPointsScene() {
 
 function pointsSceneAnimation() {
   pointsScene.geometry.vertices.forEach(function(v) {
-    if (v.y >= -7) {
+    if (v.y >= 0) {
       v.x = v.x - v.velocityX
       v.y = v.y - v.velocityY
     }
