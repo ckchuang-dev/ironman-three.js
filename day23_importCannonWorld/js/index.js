@@ -12,44 +12,38 @@ let world
 let physicsMaterial
 let groundBody
 let sphereShape, sphereBody
-let sphere
-let friction = 0.5
-let restitution = 0.7
 const dt = 1.0 / 60.0 // seconds
 let time = Date.now()
 
 function initCannon() {
-  // Setup our world
+  // 初始化 cannon.js、重力、碰撞偵測
   world = new CANNON.World()
-  world.quatNormalizeSkip = 0
-  world.quatNormalizeFast = false
-  var solver = new CANNON.GSSolver()
-  world.defaultContactMaterial.contactEquationStiffness = 1e9
-  world.defaultContactMaterial.contactEquationRelaxation = 4
-  solver.iterations = 7
-  solver.tolerance = 0.1
-  var split = true
-  if (split) world.solver = new CANNON.SplitSolver(solver)
-  else world.solver = solver
   world.gravity.set(0, -20, 0)
   world.broadphase = new CANNON.NaiveBroadphase()
 
-  // Create a slippery material (friction coefficient = 0.0)
+  // 解算器設定
+  const solver = new CANNON.GSSolver()
+  solver.iterations = 7
+  solver.tolerance = 0.1
+  const split = true
+  if (split) world.solver = new CANNON.SplitSolver(solver)
+  else world.solver = solver
+
+  // 接觸材質相關設定（摩擦力、恢復係數）
+  world.defaultContactMaterial.contactEquationStiffness = 1e9
+  world.defaultContactMaterial.contactEquationRelaxation = 4
   physicsMaterial = new CANNON.Material('slipperyMaterial')
-  var physicsContactMaterial = new CANNON.ContactMaterial(
+  const physicsContactMaterial = new CANNON.ContactMaterial(
     physicsMaterial,
     physicsMaterial,
-    0.0, // friction coefficient
-    0.3 // restitution
+    0.0, // 摩擦力
+    0.3 // 恢復係數
   )
-  // We must add the contact materials to the world
   world.addContactMaterial(physicsContactMaterial)
 
-  // Create a sphere
-  var mass = 5,
-    radius = 1.3
-  sphereShape = new CANNON.Sphere(radius)
-  sphereBody = new CANNON.Body({ mass: mass })
+  // 鼠標控制器剛體
+  sphereShape = new CANNON.Sphere(1.5)
+  sphereBody = new CANNON.Body({ mass: 5 })
   sphereBody.addShape(sphereShape)
   sphereBody.position.set(0, 5, 0)
   sphereBody.linearDamping = 0.9
@@ -202,10 +196,21 @@ function init() {
 function render() {
   requestAnimationFrame(render)
   stats.update()
-  // creeperFeetWalk()
   pointsSceneAnimation()
-  // TWEEN.update()
 
+  if (controls.enabled) {
+    world.step(dt)
+    // Update box mesh positions
+    for (let i = 0; i < boxes.length; i++) {
+      boxMeshes[i].position.copy(boxes[i].position)
+      boxMeshes[i].quaternion.copy(boxes[i].quaternion)
+    }
+  }
+  controls.update(Date.now() - time)
+  time = Date.now()
+
+  // creeperFeetWalk()
+  // TWEEN.update()
   // explosion
   // if (explosion) {
   //   const len = explosion.length
@@ -216,16 +221,6 @@ function render() {
   //   }
   // }
 
-  if (controls.enabled) {
-    world.step(dt)
-    // Update box positions
-    for (var i = 0; i < boxes.length; i++) {
-      boxMeshes[i].position.copy(boxes[i].position)
-      boxMeshes[i].quaternion.copy(boxes[i].quaternion)
-    }
-  }
-  controls.update(Date.now() - time)
-  time = Date.now()
   renderer.render(scene, camera)
 }
 
