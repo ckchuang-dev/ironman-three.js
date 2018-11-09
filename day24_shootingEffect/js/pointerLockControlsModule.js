@@ -1,6 +1,6 @@
 function initPointerLockControls() {
   // 鼠標控制器初始化
-  controls = new PointerLockControls(camera, sphereBody)
+  controls = new PointerLockControls(camera, playerBody)
   scene.add(controls.getObject())
 
   const blocker = document.getElementById('blocker')

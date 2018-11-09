@@ -5,7 +5,7 @@
 let PointerLockControls = function(camera, cannonBody) {
   let eyeYPos = 2 // eyes are 2 meters above the ground
   let velocityFactor = 0.2
-  let jumpVelocity = 15
+  let jumpVelocity = 20
   let scope = this
 
   let pitchObject = new THREE.Object3D()

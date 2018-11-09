@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Day 23 - Cannon.js</title>
+  <title>Day 24 - Shooting effect</title>
   <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
   <div id="stats"></div>
   <div id="blocker">
     <div id="instructions">
-      <span style="font-size:40px">點擊開始</span>
-      <br />
-      (W, A, S, D = 控制移動方向, SPACE = 跳躍, MOUSE = 轉動視角)
+      <span style="font-size:40px">點擊開始</span><br />
+      W, A, S, D：控制移動方向<br />
+      SPACE：跳躍<br />
+      滑鼠：轉動視角<br />
+      左鍵：射擊<br />
+      右鍵：疊磚<br />
     </div>
 
   </div>
@@ -22,6 +25,7 @@
   <script src="./lib/dat.gui.min.js"></script><!-- 0.7.3 -->
   <script src="./lib/Tween.min.js"></script><!-- 17.2.0 -->
   <script src="./lib/PointerLockControls.js"></script>
+  <script src="./lib/CannonDebugRenderer.js"></script>
   <script src="./js/creeperModule.js"></script>
   <script src="./js/pointsSceneModule.js"></script>
   <script src="./js/creeperAnimationModule.js"></script>

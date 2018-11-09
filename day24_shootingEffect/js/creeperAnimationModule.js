@@ -105,10 +105,10 @@ function tweenHandler() {
 // 苦力怕原地走動動畫
 function creeperFeetWalk() {
   walkSpeed += 0.04
-  creeperObj.foot1.rotation.x = Math.sin(walkSpeed) / 4 // 前腳左
-  creeperObj.foot2.rotation.x = -Math.sin(walkSpeed) / 4 // 後腳左
-  creeperObj.foot3.rotation.x = -Math.sin(walkSpeed) / 4 // 前腳右
-  creeperObj.foot4.rotation.x = Math.sin(walkSpeed) / 4 // 後腳左
+  creeperObj.leftFrontLeg.rotation.x = Math.sin(walkSpeed) / 4 // 前腳左
+  creeperObj.leftBackLeg.rotation.x = -Math.sin(walkSpeed) / 4 // 後腳左
+  creeperObj.rightFrontLeg.rotation.x = -Math.sin(walkSpeed) / 4 // 前腳右
+  creeperObj.rightBackLeg.rotation.x = Math.sin(walkSpeed) / 4 // 後腳左
 }
 
 // 苦力怕膨脹
