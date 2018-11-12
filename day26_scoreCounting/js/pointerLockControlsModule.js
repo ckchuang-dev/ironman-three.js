@@ -89,6 +89,6 @@ function initPointerLockControls() {
     )
   } else {
     instructions.innerHTML =
-      "Your browser doesn't seem to support Pointer Lock API"
+      '你的瀏覽器似乎不支援 Pointer Lock API，建議使用電腦版 Google Chrome 取得最佳體驗！'
   }
 }

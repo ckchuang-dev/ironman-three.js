@@ -187,7 +187,8 @@ function initPointerLockControls() {
       instructions.style.display = ''
     })
   } else {
-    instructions.innerHTML = '你的瀏覽器不支援鼠標鎖定控制器！'
+    instructions.innerHTML =
+      '你的瀏覽器似乎不支援 Pointer Lock API，建議使用電腦版 Google Chrome 取得最佳體驗！'
   }
 
   const onKeyDown = function(event) {
