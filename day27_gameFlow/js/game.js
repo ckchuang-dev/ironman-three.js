@@ -227,7 +227,7 @@ function init() {
   createGround()
   createCreeper()
   createBoxes(20)
-  // createPointsScene()
+  createPointsScene()
 
   document.body.appendChild(renderer.domElement)
 }
@@ -331,7 +331,7 @@ function handleEndGame() {
 function render() {
   requestAnimationFrame(render)
   stats.update()
-  // pointsSceneAnimation()
+  pointsSceneAnimation()
 
   if (controls.enabled) {
     world.step(dt)
