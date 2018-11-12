@@ -1,5 +1,5 @@
 // points
-const particleCount = 15000
+const particleCount = 20000
 let pointsScene
 let pointsSceneMaterial
 const textureLoader = new THREE.TextureLoader()
@@ -18,7 +18,7 @@ function createPointsScene() {
     opacity: 0.5
   })
 
-  const range = 300
+  const range = 500
   for (let i = 0; i < particleCount; i++) {
     const x = THREE.Math.randInt(-range / 2, range / 2)
     const y = THREE.Math.randInt(0, range * 20)

@@ -16,6 +16,10 @@ body {
   top: 0;
 }
 
+#restart {
+  display: none;
+}
+
 #blocker {
   position: absolute;
   width: 100%;
@@ -43,15 +47,24 @@ body {
 }
 
 .game_info {
+  font-size: 20px;
   display: none;
   position: absolute;
   top: 20px;
   right: 20px;
   color: white;
-  width: 200px;
+  width: 300px;
   justify-content: space-between;
+}
+
+.operation {
+  margin-top: 20px;
 }
 
 .game_info > div {
   display: flex;
+}
+
+.text_left {
+  text-align: left;
 }

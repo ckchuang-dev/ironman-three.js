@@ -9,7 +9,7 @@ const newScoreDOM = document.getElementById('newScore')
 const bestScoreDOM = document.getElementById('bestScore')
 
 newScore =
-  newGameResult.score + parseInt(newGameResult.remainingTime / 1000) * 100
+  newGameResult.score + parseInt(newGameResult.remainingTime / 1000) * 1000
 newScoreDOM.textContent = newScore
 if (newScore > parseInt(bestGameResult)) {
   localStorage.setItem('BEST_GAME_RESULT', newScore)

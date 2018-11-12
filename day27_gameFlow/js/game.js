@@ -84,7 +84,8 @@ function initStats() {
 
 function initScene() {
   scene = new THREE.Scene()
-  scene.fog = new THREE.FogExp2(0x000000, 0.0008)
+  scene.background = new THREE.Color(0x80adfc)
+  scene.fog = new THREE.FogExp2(0x80adfc, 0.0008)
 }
 
 function initCamera() {
@@ -111,25 +112,18 @@ function initLight() {
   let ambientLight = new THREE.AmbientLight(0x404040)
   scene.add(ambientLight)
 
-  // 點光源
-  pointLight = new THREE.PointLight(0xf0f0f0, 1, 100) // 顏色, 強度, 距離
-  pointLight.castShadow = true // 投影
-  pointLight.position.set(-30, 30, 30)
-  // scene.add(pointLight)
+  // spotlight
   light = new THREE.SpotLight(0xffffff)
-  light.position.set(10, 30, 20)
+  light.position.set(10, 50, 20)
   light.target.position.set(0, 0, 0)
-  if (true) {
-    light.castShadow = true
-    light.shadow.camera.near = 20
-    light.shadow.camera.far = 50 //camera.far;
-    light.shadow.camera.fov = 40
-    light.shadowMapBias = 0.1
-    light.shadowMapDarkness = 0.7
-    light.shadow.mapSize.width = 2 * 512
-    light.shadow.mapSize.height = 2 * 512
-    //light.shadowCameraVisible = true;
-  }
+  light.castShadow = true
+  light.shadow.camera.near = 20
+  light.shadow.camera.far = 50 //camera.far;
+  light.shadow.camera.fov = 40
+  light.shadowMapBias = 0.1
+  light.shadowMapDarkness = 0.7
+  light.shadow.mapSize.width = 2 * 512
+  light.shadow.mapSize.height = 2 * 512
   scene.add(light)
 }
 
@@ -151,7 +145,7 @@ function createGround() {
   groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
   world.add(groundBody)
 
-  const groundGeometry = new THREE.PlaneGeometry(300, 300, 50, 50)
+  const groundGeometry = new THREE.PlaneGeometry(500, 500, 50, 50)
   const groundMaterial = new THREE.MeshLambertMaterial({ color: 0xa5a5a5 })
   let ground = new THREE.Mesh(groundGeometry, groundMaterial)
   ground.rotation.x = -Math.PI / 2
@@ -170,9 +164,9 @@ function initGameData() {
   remainingTimeDOM.textContent = gameData.remainingTime / 1000
 }
 
-function createCreeper() {
-  for (let i = 0; i < 10; i++) {
-    creeperObj[i] = new Creeper(2, 1, i - 5)
+function createCreeper(num) {
+  for (let i = 0; i < num; i++) {
+    creeperObj[i] = new Creeper(2, 1, i - num / 2)
     scene.add(creeperObj[i].creeper)
     world.addBody(creeperObj[i].headBody)
     world.addBody(creeperObj[i].bodyBody)
@@ -191,9 +185,9 @@ function createCreeper() {
 function createBoxes(count) {
   // Add boxes
   for (let i = 0; i < count; i++) {
-    const x = (Math.random() - 0.5) * 60
+    const x = (Math.random() - 0.5) * 100
     const y = 10 + (Math.random() - 0.5) * 1
-    const z = (Math.random() - 0.5) * 60
+    const z = (Math.random() - 0.5) * 100
     const boxBody = new CANNON.Body({ mass: 5, material: physicsMaterial })
     boxBody.addShape(boxShape)
     const boxMaterial = new THREE.MeshLambertMaterial({
@@ -225,7 +219,7 @@ function init() {
   stats = initStats()
 
   createGround()
-  createCreeper()
+  createCreeper(10)
   createBoxes(20)
   createPointsScene()
 
@@ -273,7 +267,7 @@ window.addEventListener('click', function(e) {
         ammoMeshes.length = 0
       }
       // 子彈剛體與網格
-      const ammoBody = new CANNON.Body({ mass: 50 })
+      const ammoBody = new CANNON.Body({ mass: 30 })
       ammoBody.addShape(ballShape)
       const ammoMaterial = new THREE.MeshStandardMaterial({ color: 0x93882f })
       const ammoMesh = new THREE.Mesh(ballGeometry, ammoMaterial)
@@ -296,10 +290,22 @@ window.addEventListener('click', function(e) {
       ammoBody.position.set(x, y, z)
       ammoMesh.position.set(x, y, z)
     } else if (e.which === 3) {
+      // 磚塊數量過多時移除舊磚塊
+      if (bricks.length > 50) {
+        for (let i = 0; i < bricks.length; i++) {
+          brickMeshes[i].geometry.dispose()
+          scene.remove(brickMeshes[i])
+          world.remove(bricks[i])
+        }
+        bricks.length = 0
+        brickMeshes.length = 0
+      }
       // 磚塊剛體與網格
       const brickBody = new CANNON.Body({ mass: 10 })
       brickBody.addShape(boxShape)
-      const brickMaterial = new THREE.MeshStandardMaterial({ color: 0x0f0201 })
+      const brickMaterial = new THREE.MeshStandardMaterial({
+        color: 0x3a0c0c
+      })
       const brickMesh = new THREE.Mesh(boxGeometry, brickMaterial)
       world.addBody(brickBody)
       scene.add(brickMesh)
@@ -309,9 +315,9 @@ window.addEventListener('click', function(e) {
       brickMeshes.push(brickMesh)
       getShootDir(e, shootDirection)
       brickBody.velocity.set(
-        shootDirection.x,
-        shootDirection.y,
-        shootDirection.z
+        shootDirection.x * 10,
+        shootDirection.y * 10,
+        shootDirection.z * 10
       )
       // Move the ball outside the player sphere
       x += shootDirection.x * (sphereShape.radius * 1.02 + ballShape.radius)

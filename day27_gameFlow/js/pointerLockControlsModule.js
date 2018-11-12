@@ -6,6 +6,7 @@ function initPointerLockControls() {
   const blocker = document.getElementById('blocker')
   const instructions = document.getElementById('instructions')
   const start = document.getElementById('start')
+  const restart = document.getElementById('restart')
   const game_info = document.getElementsByClassName('game_info')
 
   const havePointerLock =
@@ -25,6 +26,7 @@ function initPointerLockControls() {
         game_info[0].style.display = 'flex'
         gameData.prevTime = new Date()
         start.textContent = '繼續遊戲'
+        restart.style.display = 'inline-block'
       } else {
         controls.enabled = false
         blocker.style.display = '-webkit-box'

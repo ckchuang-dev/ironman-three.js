@@ -35,53 +35,55 @@ class Creeper {
       headMaterials.push(new THREE.MeshPhongMaterial({ map: map }))
     }
 
+    const randomPosition = index * 15
+
     this.head = new THREE.Mesh(headGeo, headMaterials)
-    this.head.position.set(index * 10, 12 * sizeScale, index * 10)
+    this.head.position.set(randomPosition, 12 * sizeScale, randomPosition)
 
     const headShape = new CANNON.Box(
       new CANNON.Vec3(2 * sizeScale, 2 * sizeScale, 2 * sizeScale)
     )
     this.headBody = new CANNON.Body({
       mass: 5 * massScale,
-      position: new CANNON.Vec3(index * 10, 12 * sizeScale, index * 10)
+      position: new CANNON.Vec3(randomPosition, 12 * sizeScale, randomPosition)
     })
     this.headBody.addShape(headShape)
 
     this.body = new THREE.Mesh(bodyGeo, skinMat)
-    this.body.position.set(index * 10, 6 * sizeScale, index * 10)
+    this.body.position.set(randomPosition, 6 * sizeScale, randomPosition)
 
     const bodyShape = new CANNON.Box(
       new CANNON.Vec3(2 * sizeScale, 4 * sizeScale, 1 * sizeScale)
     )
     this.bodyBody = new CANNON.Body({
       mass: 10 * massScale,
-      position: new CANNON.Vec3(index * 10, 6 * sizeScale, index * 10)
+      position: new CANNON.Vec3(randomPosition, 6 * sizeScale, randomPosition)
     })
     this.bodyBody.addShape(bodyShape)
 
     this.leftFrontLeg = new THREE.Mesh(footGeo, skinMat)
     this.leftFrontLeg.position.set(
-      -1 * sizeScale + index * 10,
+      -1 * sizeScale + randomPosition,
       1.5 * sizeScale,
-      2 * sizeScale + index * 10
+      2 * sizeScale + randomPosition
     )
     this.leftBackLeg = this.leftFrontLeg.clone()
     this.leftBackLeg.position.set(
-      -1 * sizeScale + index * 10,
+      -1 * sizeScale + randomPosition,
       1.5 * sizeScale,
-      -2 * sizeScale + index * 10
+      -2 * sizeScale + randomPosition
     )
     this.rightFrontLeg = this.leftFrontLeg.clone()
     this.rightFrontLeg.position.set(
-      1 * sizeScale + index * 10,
+      1 * sizeScale + randomPosition,
       1.5 * sizeScale,
-      2 * sizeScale + index * 10
+      2 * sizeScale + randomPosition
     )
     this.rightBackLeg = this.leftFrontLeg.clone()
     this.rightBackLeg.position.set(
-      1 * sizeScale + index * 10,
+      1 * sizeScale + randomPosition,
       1.5 * sizeScale,
-      -2 * sizeScale + index * 10
+      -2 * sizeScale + randomPosition
     )
 
     const footShape = new CANNON.Box(
@@ -90,36 +92,36 @@ class Creeper {
     this.leftFrontLegBody = new CANNON.Body({
       mass: 10 * massScale,
       position: new CANNON.Vec3(
-        -1 * sizeScale + index * 10,
+        -1 * sizeScale + randomPosition,
         1.5 * sizeScale,
-        2 * sizeScale + index * 10
+        2 * sizeScale + randomPosition
       )
     })
     this.leftFrontLegBody.addShape(footShape)
     this.leftBackLegBody = new CANNON.Body({
       mass: 10 * massScale,
       position: new CANNON.Vec3(
-        -1 * sizeScale + index * 10,
+        -1 * sizeScale + randomPosition,
         1.5 * sizeScale,
-        -2 * sizeScale + index * 10
+        -2 * sizeScale + randomPosition
       )
     })
     this.leftBackLegBody.addShape(footShape)
     this.rightFrontLegBody = new CANNON.Body({
       mass: 10 * massScale,
       position: new CANNON.Vec3(
-        1 * sizeScale + index * 10,
+        1 * sizeScale + randomPosition,
         1.5 * sizeScale,
-        2 * sizeScale + index * 10
+        2 * sizeScale + randomPosition
       )
     })
     this.rightFrontLegBody.addShape(footShape)
     this.rightBackLegBody = new CANNON.Body({
       mass: 10 * massScale,
       position: new CANNON.Vec3(
-        1 * sizeScale + index * 10,
+        1 * sizeScale + randomPosition,
         1.5 * sizeScale,
-        -2 * sizeScale + index * 10
+        -2 * sizeScale + randomPosition
       )
     })
     this.rightBackLegBody.addShape(footShape)
