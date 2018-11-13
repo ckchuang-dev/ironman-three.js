@@ -1,6 +1,6 @@
 // 苦力怕物件
 class Creeper {
-  constructor(sizeScale, massScale, index) {
+  constructor(sizeScale, massScale, creeperPosition) {
     const headGeo = new THREE.BoxGeometry(
       4 * sizeScale,
       4 * sizeScale,
@@ -35,55 +35,64 @@ class Creeper {
       headMaterials.push(new THREE.MeshPhongMaterial({ map: map }))
     }
 
-    const randomPosition = index * 20
+    const creeperPositionX = creeperPosition[0]
+    const creeperPositionZ = creeperPosition[1]
 
     this.head = new THREE.Mesh(headGeo, headMaterials)
-    this.head.position.set(randomPosition, 12 * sizeScale, randomPosition)
+    this.head.position.set(creeperPositionX, 12 * sizeScale, creeperPositionZ)
 
     const headShape = new CANNON.Box(
       new CANNON.Vec3(2 * sizeScale, 2 * sizeScale, 2 * sizeScale)
     )
     this.headBody = new CANNON.Body({
       mass: 5 * massScale,
-      position: new CANNON.Vec3(randomPosition, 12 * sizeScale, randomPosition)
+      position: new CANNON.Vec3(
+        creeperPositionX,
+        12 * sizeScale,
+        creeperPositionZ
+      )
     })
     this.headBody.addShape(headShape)
 
     this.body = new THREE.Mesh(bodyGeo, skinMat)
-    this.body.position.set(randomPosition, 6 * sizeScale, randomPosition)
+    this.body.position.set(creeperPositionX, 6 * sizeScale, creeperPositionZ)
 
     const bodyShape = new CANNON.Box(
       new CANNON.Vec3(2 * sizeScale, 4 * sizeScale, 1 * sizeScale)
     )
     this.bodyBody = new CANNON.Body({
       mass: 10 * massScale,
-      position: new CANNON.Vec3(randomPosition, 6 * sizeScale, randomPosition)
+      position: new CANNON.Vec3(
+        creeperPositionX,
+        6 * sizeScale,
+        creeperPositionZ
+      )
     })
     this.bodyBody.addShape(bodyShape)
 
     this.leftFrontLeg = new THREE.Mesh(footGeo, skinMat)
     this.leftFrontLeg.position.set(
-      -1 * sizeScale + randomPosition,
+      -1 * sizeScale + creeperPositionX,
       1.5 * sizeScale,
-      2 * sizeScale + randomPosition
+      2 * sizeScale + creeperPositionZ
     )
     this.leftBackLeg = this.leftFrontLeg.clone()
     this.leftBackLeg.position.set(
-      -1 * sizeScale + randomPosition,
+      -1 * sizeScale + creeperPositionX,
       1.5 * sizeScale,
-      -2 * sizeScale + randomPosition
+      -2 * sizeScale + creeperPositionZ
     )
     this.rightFrontLeg = this.leftFrontLeg.clone()
     this.rightFrontLeg.position.set(
-      1 * sizeScale + randomPosition,
+      1 * sizeScale + creeperPositionX,
       1.5 * sizeScale,
-      2 * sizeScale + randomPosition
+      2 * sizeScale + creeperPositionZ
     )
     this.rightBackLeg = this.leftFrontLeg.clone()
     this.rightBackLeg.position.set(
-      1 * sizeScale + randomPosition,
+      1 * sizeScale + creeperPositionX,
       1.5 * sizeScale,
-      -2 * sizeScale + randomPosition
+      -2 * sizeScale + creeperPositionZ
     )
 
     const footShape = new CANNON.Box(
@@ -92,36 +101,36 @@ class Creeper {
     this.leftFrontLegBody = new CANNON.Body({
       mass: 10 * massScale,
       position: new CANNON.Vec3(
-        -1 * sizeScale + randomPosition,
+        -1 * sizeScale + creeperPositionX,
         1.5 * sizeScale,
-        2 * sizeScale + randomPosition
+        2 * sizeScale + creeperPositionZ
       )
     })
     this.leftFrontLegBody.addShape(footShape)
     this.leftBackLegBody = new CANNON.Body({
       mass: 10 * massScale,
       position: new CANNON.Vec3(
-        -1 * sizeScale + randomPosition,
+        -1 * sizeScale + creeperPositionX,
         1.5 * sizeScale,
-        -2 * sizeScale + randomPosition
+        -2 * sizeScale + creeperPositionZ
       )
     })
     this.leftBackLegBody.addShape(footShape)
     this.rightFrontLegBody = new CANNON.Body({
       mass: 10 * massScale,
       position: new CANNON.Vec3(
-        1 * sizeScale + randomPosition,
+        1 * sizeScale + creeperPositionX,
         1.5 * sizeScale,
-        2 * sizeScale + randomPosition
+        2 * sizeScale + creeperPositionZ
       )
     })
     this.rightFrontLegBody.addShape(footShape)
     this.rightBackLegBody = new CANNON.Body({
       mass: 10 * massScale,
       position: new CANNON.Vec3(
-        1 * sizeScale + randomPosition,
+        1 * sizeScale + creeperPositionX,
         1.5 * sizeScale,
-        -2 * sizeScale + randomPosition
+        -2 * sizeScale + creeperPositionZ
       )
     })
     this.rightBackLegBody.addShape(footShape)
