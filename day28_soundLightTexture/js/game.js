@@ -387,8 +387,8 @@ window.addEventListener('click', function(e) {
       }
       // 子彈剛體與網格
       const ammoBody = new CANNON.Body({ mass: 20 })
-      const ammoShape = new CANNON.Sphere(0.0002)
-      ammoBody.addShape(ammoShape)
+      // const ammoShape = new CANNON.Sphere(0.0002)
+      ammoBody.addShape(ballShape)
 
       const ammoMaterial = new THREE.MeshStandardMaterial({ color: 0x93882f })
       const ammoMesh = new THREE.Mesh(ballGeometry, ammoMaterial)
@@ -405,9 +405,9 @@ window.addEventListener('click', function(e) {
         shootDirection.z * shootVelo
       )
       // Move the ball outside the player sphere
-      x += shootDirection.x * (sphereShape.radius * 1.02 + ammoShape.radius)
-      y += shootDirection.y * (sphereShape.radius * 1.02 + ammoShape.radius)
-      z += shootDirection.z * (sphereShape.radius * 1.02 + ammoShape.radius)
+      x += shootDirection.x * (sphereShape.radius * 1.02 + ballShape.radius)
+      y += shootDirection.y * (sphereShape.radius * 1.02 + ballShape.radius)
+      z += shootDirection.z * (sphereShape.radius * 1.02 + ballShape.radius)
       ammoBody.position.set(x, y, z)
       ammoMesh.position.set(x, y, z)
     } else if (e.which === 3) {
@@ -445,9 +445,9 @@ window.addEventListener('click', function(e) {
         shootDirection.z * 10
       )
       // Move the ball outside the player sphere
-      x += shootDirection.x * (sphereShape.radius * 1.02 + ballShape.radius)
-      y += shootDirection.y * (sphereShape.radius * 1.02 + ballShape.radius)
-      z += shootDirection.z * (sphereShape.radius * 1.02 + ballShape.radius)
+      x += shootDirection.x * (sphereShape.radius * 1.02 + 1)
+      y += shootDirection.y * (sphereShape.radius * 1.02 + 1)
+      z += shootDirection.z * (sphereShape.radius * 1.02 + 1)
       brickBody.position.set(x, y, z)
       brickMesh.position.set(x, y, z)
     }
