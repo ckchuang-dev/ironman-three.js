@@ -532,7 +532,7 @@ function render() {
         // 計分並顯示到畫面上
         gameData.score += 10000
         scoreDOM.textContent = gameData.score
-        if (gameData.score === 10 * 10000) {
+        if (gameData.score === 20 * 10000) {
           handleEndGame()
         }
       }
