@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="shortcut icon" href="./img/creeper_icon.png">
+  <title>擊倒吧！苦力怕！</title>
+  <link rel="stylesheet" href="./css/game.css">
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+<body>
+  <div id="stats"></div>
+  <!-- BGM src: https://www.youtube.com/watch?v=E3--ZT1Bdns -->
+  <audio id="bgm" src="./music/bgm.mp3"></audio>
+  <!-- explosionMusic src: https://www.youtube.com/watch?v=RK0WyUqrI54 -->
+  <audio id="explosionMusic" src="./music/explosion.mp3"></audio>
+  <!-- gunshot src: https://www.youtube.com/watch?v=nUa-6-R4-0s -->
+  <!-- <audio id="gunshot" src="./music/gunshot6.mp3"></audio> -->
+  <div id="blocker">
+    <div id="instructions">
+      <header class="masthead">
+        <div class="container d-flex h-100 align-items-center">
+          <div class="mx-auto text-center">
+            <button onclick="window.location.href='index.html'" type="button" class="btn btn-lg btn-danger">回主選單</button>
+            <button id="start" type="button" class="btn btn-lg btn-primary">開始遊戲</button>
+            <button id="restart" onclick="window.location.href='game.html'" type="button" class="btn btn-lg btn-danger">重新開始</button>
+            <div class="operation">
+              W, A, S, D：控制移動方向<br />
+              SPACE：跳躍<br />
+              滑鼠：轉動視角<br />
+              左鍵：射擊<br />
+              右鍵：疊磚<br />
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <div class="game_info">
+    <div>分數：<div id="score"></div></div>
+    <div>剩餘時間：<div id="remainingTime"></div>秒</div>
+  </div>
+
+  <script src="./lib/three.min.js"></script><!-- r98 -->
+  <script src="./lib/cannon.min.js"></script><!-- 0.6.2 -->
+  <!-- <script src="./lib/OrbitControls.js"></script> -->
+  <script src="./lib/Stats.min.js"></script><!-- r16 -->
+  <script src="./lib/dat.gui.min.js"></script><!-- 0.7.3 -->
+  <script src="./lib/Tween.min.js"></script><!-- 17.2.0 -->
+  <script src="./lib/Tone.min.js"></script>
+  <script src="./lib/PointerLockControls.js"></script>
+  <script src="./lib/OBJLoader.js"></script>
+  <!-- <script src="./lib/CannonDebugRenderer.js"></script> -->
+  <script src="./js/creeperModule.js"></script>
+  <script src="./js/pointsSceneModule.js"></script>
+  <script src="./js/datGuiControlModule.js"></script>
+  <script src="./js/pointerLockControlsModule.js"></script>
+  <script src="./js/explosionModule.js"></script>
+  <script src="./js/game.js"></script>
+</body>
+</html>

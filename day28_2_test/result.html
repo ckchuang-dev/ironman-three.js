@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="./img/creeper_icon.png">
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/index.css">
+  <title>擊倒吧！苦力怕！</title>
+</head>
+<body>
+  <header class="verticle_align">
+    <div class="container d-flex h-100 align-items-center">
+      <div class="mx-auto text-center">
+        <h1 class="mx-auto my-0 text-uppercase">遊戲結束</h1>
+        <h3>你的最高分</h3><h4 id="bestScore"></h4>
+        <h3>統計分數</h3><h4 id="newScore"></h4>
+        <button onclick="window.location.href='index.html'" type="button" class="btn btn-lg btn-primary">回主選單</button>
+        <button onclick="window.location.href='game.html'" type="button" class="btn btn-lg btn-primary">再玩一次</button>
+        <button id="clear" type="button" class="btn btn-lg btn-danger">清除記錄</button>
+      </div>
+    </div>
+  </header>
+  <script src="./js/result.js"></script>
+</body>
+</html>
