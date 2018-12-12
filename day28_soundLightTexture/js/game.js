@@ -374,7 +374,9 @@ window.addEventListener('click', function(e) {
     // 左鍵（1）射擊與右鍵（3）疊磚
     if (e.which === 1) {
       // 射擊聲
-      synth.triggerAttackRelease('0.01')
+      if (synth) {
+        synth.triggerAttackRelease('0.01')
+      }
       // 子彈數量過多時移除舊子彈
       if (ammos.length > 50) {
         for (let i = 0; i < ammos.length; i++) {
