@@ -64,9 +64,9 @@ function init() {
 	)
 	camera.position.set(30, 30, 30)
 	camera.lookAt(scene.position)
-	
+
 	// 建立 OrbitControls
-	let cameraControl = new THREE.OrbitControls(camera)
+	let cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
 	...
 }
 ```

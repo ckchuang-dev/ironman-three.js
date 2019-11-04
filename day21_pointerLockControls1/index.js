@@ -37,11 +37,11 @@ class Creeper {
 
     // 苦力怕臉部貼圖
     const headMap = textureLoader.load(
-      'https://dl.dropboxusercontent.com/s/bkqu0tty04epc46/creeper_face.png'
+      '../assets/img/creeper_face.png'
     )
     // 苦力怕皮膚貼圖
     const skinMap = textureLoader.load(
-      'https://dl.dropboxusercontent.com/s/eev6wxdxfmukkt8/creeper_skin.png'
+      '../assets/img/creeper.png'
     )
 
     // 身體與腳的材質設定

@@ -80,12 +80,8 @@ class Creeper {
     const bodyGeo = new THREE.BoxGeometry(4, 8, 2)
     const footGeo = new THREE.BoxGeometry(2, 3, 2)
 
-    const headMap = textureLoader.load(
-      'https://dl.dropboxusercontent.com/s/bkqu0tty04epc46/creeper_face.png'
-    )
-    const skinMap = textureLoader.load(
-      'https://dl.dropboxusercontent.com/s/eev6wxdxfmukkt8/creeper_skin.png'
-    )
+    const headMap = textureLoader.load('../assets/img/creeper_face.png')
+    const skinMap = textureLoader.load('../assets/img/creeper.png')
 
     const skinMat = new THREE.MeshPhongMaterial({
       map: skinMap // 皮膚貼圖
@@ -148,7 +144,7 @@ function createCreeper() {
   scene.add(creeperObj.creeper)
 }
 
-let datGUIControls = new function() {
+let datGUIControls = new (function() {
   this.explosionTrigger = function() {
     for (let i = 0; i < scene.children.length; i++) {
       const object = scene.children[i]
@@ -181,7 +177,7 @@ let datGUIControls = new function() {
   this.resetCreeper = function() {
     scene.add(creeperObj.creeper)
   }
-}()
+})()
 
 function initStats() {
   const stats = new Stats()
@@ -204,11 +200,6 @@ function init() {
   camera.position.set(50, 50, 50)
   camera.lookAt(scene.position)
 
-  // 建立 OrbitControls
-  cameraControl = new THREE.OrbitControls(camera)
-  cameraControl.enableDamping = true // 啟用阻尼效果
-  cameraControl.dampingFactor = 0.25 // 阻尼系數
-
   let axes = new THREE.AxesHelper(20)
   scene.add(axes)
 
@@ -220,6 +211,11 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = 2 // THREE.PCFSoftShadowMap
+
+  // 建立 OrbitControls
+  cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
+  cameraControl.enableDamping = true // 啟用阻尼效果
+  cameraControl.dampingFactor = 0.25 // 阻尼系數
 
   // 簡單的地板
   const planeGeometry = new THREE.PlaneGeometry(80, 80)

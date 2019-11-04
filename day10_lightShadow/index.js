@@ -15,11 +15,11 @@ class Creeper {
 
     // 苦力怕臉部貼圖
     const headMap = new THREE.TextureLoader().load(
-      'https://dl.dropboxusercontent.com/s/bkqu0tty04epc46/creeper_face.png'
+      '../assets/img/creeper_face.png'
     )
     // 苦力怕皮膚貼圖
     const skinMap = new THREE.TextureLoader().load(
-      'https://dl.dropboxusercontent.com/s/eev6wxdxfmukkt8/creeper_skin.png'
+      '../assets/img/creeper.png'
     )
 
     // 身體與腳的材質設定
@@ -107,12 +107,6 @@ function init() {
   camera.position.set(30, 30, 30)
   camera.lookAt(scene.position)
 
-  // 建立 OrbitControls
-  cameraControl = new THREE.OrbitControls(camera)
-  cameraControl.enableDamping = true // 啟用阻尼效果
-  cameraControl.dampingFactor = 0.25 // 阻尼系數
-  // cameraControl.autoRotate = true // 啟用自動旋轉
-
   let axes = new THREE.AxesHelper(20)
   scene.add(axes)
 
@@ -123,6 +117,12 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = 2 // THREE.PCFSoftShadowMap
+
+  // 建立 OrbitControls
+  cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
+  cameraControl.enableDamping = true // 啟用阻尼效果
+  cameraControl.dampingFactor = 0.25 // 阻尼系數
+  // cameraControl.autoRotate = true // 啟用自動旋轉
 
   // 簡單的地板
   const planeGeometry = new THREE.PlaneGeometry(60, 60)

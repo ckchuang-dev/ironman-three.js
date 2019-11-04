@@ -52,11 +52,12 @@ function init() {
   camera.position.set(0, 0, 100)
   camera.lookAt(scene.position)
 
-  cameraControl = new THREE.OrbitControls(camera)
   stats = initStats()
 
   renderer = new THREE.WebGLRenderer()
   renderer.setSize(window.innerWidth, window.innerHeight)
+
+  cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
 
   // 創建粒子系統
   createVerticesPoints()

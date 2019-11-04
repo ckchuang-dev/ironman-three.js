@@ -18,7 +18,7 @@ function initStats() {
   return stats
 }
 
-let controls = new function() {
+let controls = new (function() {
   this.resetBall = function() {
     sphereBody.position.set(0, 10, 0)
     sphereBody.velocity.set(0, 0, 0)
@@ -27,7 +27,7 @@ let controls = new function() {
   }
   this.friction = 0.5
   this.restitution = 0.7
-}()
+})()
 
 function initThreeSetting() {
   scene = new THREE.Scene()
@@ -43,8 +43,6 @@ function initThreeSetting() {
 
   let axes = new THREE.AxesHelper(20)
   scene.add(axes)
-
-  // cameraControl = new THREE.OrbitControls(camera)
 
   stats = initStats()
 
@@ -62,6 +60,8 @@ function initThreeSetting() {
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = 2
   renderer.setSize(window.innerWidth, window.innerHeight)
+
+  // cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
 
   let ambientLight = new THREE.AmbientLight(0x404040)
   scene.add(ambientLight)

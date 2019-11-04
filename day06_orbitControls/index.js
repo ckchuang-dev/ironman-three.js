@@ -72,12 +72,6 @@ function init() {
   camera.position.set(30, 30, 30)
   camera.lookAt(scene.position)
 
-  // 建立 OrbitControls
-  cameraControl = new THREE.OrbitControls(camera)
-  cameraControl.enableDamping = true // 啟用阻尼效果
-  cameraControl.dampingFactor = 0.25 // 阻尼系數
-  // cameraControl.autoRotate = true // 啟用自動旋轉
-
   // 三軸座標輔助
   let axes = new THREE.AxesHelper(20)
   scene.add(axes)
@@ -87,6 +81,12 @@ function init() {
   // 渲染器設定
   renderer = new THREE.WebGLRenderer()
   renderer.setSize(window.innerWidth, window.innerHeight)
+
+  // 建立 OrbitControls
+  cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
+  cameraControl.enableDamping = true // 啟用阻尼效果
+  cameraControl.dampingFactor = 0.25 // 阻尼系數
+  // cameraControl.autoRotate = true // 啟用自動旋轉
 
   // 簡單的地板
   const planeGeometry = new THREE.PlaneGeometry(60, 60)

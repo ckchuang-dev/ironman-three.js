@@ -17,7 +17,7 @@ function initStats() {
 }
 
 // dat.GUI
-let controls = new function() {
+let controls = new (function() {
   this.explosionTrigger = function() {
     if (explosion) {
       explosion.destroy()
@@ -27,7 +27,7 @@ let controls = new function() {
   this.pointSize = 20
   this.cameraNear = 500
   // this.pointCount = 1000
-}()
+})()
 
 // 建立粒子系統
 class Explosion {
@@ -111,11 +111,6 @@ function init() {
   camera.position.set(0, 0, 1000)
   camera.lookAt(scene.position)
 
-  // OrbitControls
-  // cameraControl = new THREE.OrbitControls(camera)
-  // cameraControl.enableDamping = true
-  // cameraControl.dampingFactor = 0.25
-
   // stats
   stats = initStats()
 
@@ -126,6 +121,11 @@ function init() {
   renderer = new THREE.WebGLRenderer()
   // renderer.setClearColor(0xcccccc, 1.0)
   renderer.setSize(window.innerWidth, window.innerHeight)
+
+  // OrbitControls
+  // cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
+  // cameraControl.enableDamping = true
+  // cameraControl.dampingFactor = 0.25
 
   // explosion = new Explosion(0, 0)
 

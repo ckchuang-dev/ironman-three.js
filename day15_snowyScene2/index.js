@@ -56,11 +56,6 @@ function init() {
   camera.position.set(0, 0, 100)
   camera.lookAt(scene.position)
 
-  // OrbitControls
-  cameraControl = new THREE.OrbitControls(camera)
-  cameraControl.enableDamping = true
-  cameraControl.dampingFactor = 0.25
-
   // stats
   stats = initStats()
 
@@ -70,6 +65,11 @@ function init() {
   // renderer
   renderer = new THREE.WebGLRenderer()
   renderer.setSize(window.innerWidth, window.innerHeight)
+
+  // OrbitControls
+  cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
+  cameraControl.enableDamping = true
+  cameraControl.dampingFactor = 0.25
 
   createPoints()
 
