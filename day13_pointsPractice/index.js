@@ -1,3 +1,5 @@
+import { OrbitControls } from '../lib/OrbitControls.js'
+
 let renderer, scene, camera
 let cameraControl, stats
 
@@ -57,7 +59,7 @@ function init() {
   renderer = new THREE.WebGLRenderer()
   renderer.setSize(window.innerWidth, window.innerHeight)
 
-  cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
+  cameraControl = new OrbitControls(camera, renderer.domElement)
 
   // 創建粒子系統
   createVerticesPoints()

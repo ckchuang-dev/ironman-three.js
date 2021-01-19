@@ -122,11 +122,6 @@ function init() {
   // renderer.setClearColor(0xcccccc, 1.0)
   renderer.setSize(window.innerWidth, window.innerHeight)
 
-  // OrbitControls
-  // cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
-  // cameraControl.enableDamping = true
-  // cameraControl.dampingFactor = 0.25
-
   // explosion = new Explosion(0, 0)
 
   // dat.GUI

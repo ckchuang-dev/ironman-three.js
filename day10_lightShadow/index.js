@@ -1,3 +1,5 @@
+import { OrbitControls } from '../lib/OrbitControls.js'
+
 let renderer, scene, camera
 let cameraControl, stats
 let creeperObj
@@ -119,7 +121,7 @@ function init() {
   renderer.shadowMap.type = 2 // THREE.PCFSoftShadowMap
 
   // 建立 OrbitControls
-  cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
+  cameraControl = new OrbitControls(camera, renderer.domElement)
   cameraControl.enableDamping = true // 啟用阻尼效果
   cameraControl.dampingFactor = 0.25 // 阻尼系數
   // cameraControl.autoRotate = true // 啟用自動旋轉

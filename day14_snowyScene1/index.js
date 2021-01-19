@@ -1,3 +1,5 @@
+import { OrbitControls } from '../lib/OrbitControls.js'
+
 let renderer, scene, camera
 let cameraControl, stats
 
@@ -65,7 +67,7 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight)
 
   // OrbitControls
-  cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
+  cameraControl = new OrbitControls(camera, renderer.domElement)
   cameraControl.enableDamping = true
   cameraControl.dampingFactor = 0.25
 

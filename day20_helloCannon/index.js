@@ -1,6 +1,6 @@
 // Three.js basic setting
 let renderer, scene, camera
-let cameraControl, stats, gui
+let stats, gui
 
 // Cannon.js
 let world
@@ -60,8 +60,6 @@ function initThreeSetting() {
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = 2
   renderer.setSize(window.innerWidth, window.innerHeight)
-
-  // cameraControl = new THREE.OrbitControls(camera, renderer.domElement)
 
   let ambientLight = new THREE.AmbientLight(0x404040)
   scene.add(ambientLight)
@@ -146,7 +144,6 @@ function render() {
 
   stats.update()
   requestAnimationFrame(render)
-  // cameraControl.update()
   renderer.render(scene, camera)
 }
 
